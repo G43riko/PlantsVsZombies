@@ -3,7 +3,7 @@
 	<head>
 		<style>
 			canvas {
-				border:1px black solid;
+				border:1px red solid;
 				position:absolute;
 				top:0px;
 				left:0px;
