@@ -12,13 +12,15 @@
 		<script src="plants.js"></script>
 	</head>
 	<body>
-		<canvas id="Canvas" width="1400" height="800"></canvas>		
+		<canvas id="Canvas" width="1400" height="800">
+			lutujeme canvas nieje podporovaný
+		</canvas>		
 	</body>
 </html>
 <script>
 	var canvas = document.getElementById('Canvas');
 	var context = canvas.getContext('2d');
-	plocha={
+	var plocha = {
 		background:"green",
 		numX:15,
 		numY:10,
@@ -40,7 +42,7 @@
 			context.fillStyle = this.background;
 			context.fill();
 		}
-	}
+	};
 	sidebar={
 		background:"grey",
 		draw:function(){
@@ -67,7 +69,6 @@
 				context.fill();
 			}
 		},
-
 		plants:{
 			0:{
 				id:"a",
@@ -84,11 +85,10 @@
 				y:105+90,
 			}
 		}
-
-	}
+	};
 	player={
 		select:false
-	}
+	};
 	function init(){
 		plocha.fill(plocha.plocha);
 		isPlaying=false;
@@ -98,7 +98,7 @@
 		suns=[];
 		shots=[];
 		slnk=100;
-		lastZombieAdd=Date.now()
+		lastZombieAdd=Date.now();
 	}
 
 	function mainLoop(){
@@ -186,7 +186,7 @@
 			var dlzka=Math.sqrt((X-toto["x"])*(X-toto["x"])+((Y-toto["y"])*(Y-toto["y"])));
 			if(dlzka<40){
 				if(player.select[0]==toto["name"]){
-					player.select=false
+					player.select=false;
 					break;
 				}
 				else{
@@ -198,7 +198,7 @@
 			}	
 		}
 		for(i in suns){
-			var toto=suns[i]
+			var toto=suns[i];
 			if(Math.sqrt((data.clientX-toto.x)*(data.clientX-toto.x)+((data.clientY-toto.y)*(data.clientY-toto.y)))<toto.polomer){
 				slnk+=toto.suns;
 				suns.splice(i,1);
@@ -215,9 +215,10 @@
 			plocha.plocha[Yko][Xko]=player.select[1];
 			player.select=false;			
 		}
-	}
-
-	window.onclick=function(d){click(d);}
+	};
+	window.onclick=function(d){
+		click(d);
+	};
 	init();
 	isPlaying=true;
 	mainLoop();
