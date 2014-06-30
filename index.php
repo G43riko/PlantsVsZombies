@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="sk">
+<html lang="thajština">
 	<head>
 		<style>
 			canvas {
