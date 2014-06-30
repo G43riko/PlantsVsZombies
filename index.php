@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html lang="hu">
+<html lang="sk">
 	<head>
 		<style>
 			canvas {
-				border:1px black solid;
+				border:1px pink solid;
 				position:absolute;
 				top:0px;
 				left:0px;
