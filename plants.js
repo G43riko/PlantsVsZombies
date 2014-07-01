@@ -7,7 +7,7 @@ slnecnica=function(x,y){
 	this.suns=50;
 	this.lastSun=Date.now();
 	this.polomer=40;
-}
+};
 slnecnica.prototype={
 	cena:25,
 	draw:function(){
@@ -22,7 +22,7 @@ slnecnica.prototype={
 			this.lastSun=Date.now();
 		};
 	}
-}
+};
 kvetina=function(x,y){
 	this.x=Math.floor(x/plocha.kockaWidth)*plocha.kockaWidth;
 	this.y=Math.floor(y/plocha.kockaHeight)*plocha.kockaHeight;
@@ -32,7 +32,7 @@ kvetina=function(x,y){
 	this.lastShot=Date.now();
 	slnk-=this.cena;
 	this.polomer=40;
-}
+};
 kvetina.prototype={
 	cena:50,
 	draw:function(){
@@ -51,7 +51,7 @@ kvetina.prototype={
 			console.log(zombies);	
 		}
 	}
-}
+};
 chyba=0;
 walker=function(x,y){
 	this.healt=3;
@@ -60,7 +60,7 @@ walker=function(x,y){
 	this.dx=-0.5;
 	this.dy=0;
 	this.polomer=40;
-}
+};
 walker.prototype={
 	draw:function(){
 		context.beginPath();
@@ -72,7 +72,7 @@ walker.prototype={
 		this.x+=this.dx;
 		this.y+=this.dy;
 	}
-}
+};
 Shot=function(x,y,dx,dy,attack){
 	this.polomer=5;
 	this.x=x;
@@ -80,7 +80,7 @@ Shot=function(x,y,dx,dy,attack){
 	this.dx=dx;
 	this.dy=dy;
 	this.attack=attack;
-}
+};
 
 Shot.prototype={
 	draw:function(){
@@ -112,7 +112,7 @@ Shot.prototype={
 		}
 		return false;
 	}
-}
+};
 Sun=function(x,y,sunS){
 	this.suns=sunS;
 	this.polomer=10;
@@ -121,7 +121,7 @@ Sun=function(x,y,sunS){
 	this.dx=Math.random()*1-0.5;
 	this.dy=Math.random()*1-0.5;
 	this.startTime=Date.now();
-}
+};
 
 Sun.prototype={
 	draw:function(){
@@ -160,4 +160,4 @@ Sun.prototype={
 		}
 		return false;
 	}
-}
+};
