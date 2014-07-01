@@ -39,22 +39,20 @@ kvetina.prototype={
 	},
 	checkShot:function(){
 		
-		if(Date.now()-this.lastShot>=500){		
+		if(Date.now()-this.lastShot>=5000){		
 			shots.push(new Shot(this.x+2*plocha.kockaWidth/2,this.y+plocha.kockaHeight/2,5,0,this.attack));
 			this.lastShot=Date.now();
-			chyba++;
-			console.log(chyba);
-			console.log(zombies);	
 		}
 	}
 };
-chyba=0;
 walker=function(x,y){
 	this.healt=3;
 	this.x=x;
 	this.y=y;
 	this.dx=-0.5;
 	this.dy=0;
+	this.lastAttack=false;
+	this.attack=1;
 	this.image = new Image();
 	this.image.src="images/ZombieHD.png";
 };
@@ -65,6 +63,30 @@ walker.prototype={
 	move:function(){
 		this.x+=this.dx;
 		this.y+=this.dy;
+	},
+	checkBite:function(){
+		if(plocha.plocha[Math.floor(this.y/plocha.kockaHeight)][Math.floor(this.x/plocha.kockaWidth)]!=0){
+			for(i in plants){
+				var toto=plants[i];
+				if(toto.y==this.y){					
+					if(Math.floor(toto.x/40)==Math.floor(this.x/40)){
+						if(this.lastAttack==false){
+							this.lastAttack=Date.now()-1000;
+						}
+						if(Date.now()-this.lastAttack>=1000){
+							toto.healt-=this.attack;
+							this.lastAttack=Date.now();
+							this.dx=0;
+							if(toto.healt<=0){
+								plants.splice(i,1);
+								this.lastAttack=false;
+								this.dx=-0.5;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 };
 Shot=function(x,y,dx,dy,attack){
@@ -76,7 +98,6 @@ Shot=function(x,y,dx,dy,attack){
 	this.attack=attack;	
 	
 };
-
 Shot.prototype={
 	draw:function(){
 		context.beginPath();
@@ -108,7 +129,7 @@ Shot.prototype={
 };
 Sun=function(x,y,sunS){
 	this.suns=sunS;
-	this.polomer=10;
+	this.polomer=20;
 	this.x=(x+plocha.kockaWidth/2);
 	this.y=(y+this.polomer);
 	this.dx=Math.random()*1-0.5;
@@ -117,7 +138,6 @@ Sun=function(x,y,sunS){
 	this.image = new Image();
 	this.image.src="images/SunHD.png";
 };
-
 Sun.prototype={
 	draw:function(){
 		context.drawImage(this.image,this.x,this.y,this.polomer*2,this.polomer*2);
