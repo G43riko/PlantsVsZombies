@@ -137,15 +137,22 @@ Sun=function(x,y,sunS){
 	this.startTime=Date.now();
 	this.image = new Image();
 	this.image.src="images/SunHD.png";
+	this.rotation=0;
 };
 Sun.prototype={
 	draw:function(){
+	 	//context.save();
+		//context.rotate(this.rotation);
+		//context.translate((this.x+this.polomer), (this.y+this.polomer));
 		context.drawImage(this.image,this.x,this.y,this.polomer*2,this.polomer*2);
+		//context.restore();
+		
 	},
 	move:function(){
 		var xSos=this.x;
 		var ySos=this.y;
 		this.x+=this.dx;
+		this.rotation+=1/Math.PI;
 		this.y+=this.dy;
 		if(this.x-this.polomer<0){
 			this.dx*=-1;

@@ -100,7 +100,7 @@
 		shots=[];
 		slnk=100;
 		lastZombieAdd=Date.now();
-	}
+	};
 
 	function mainLoop(){
 		check();
@@ -111,7 +111,7 @@
 		if(isPlaying){
 			requestAnimationFrame(mainLoop);
 		}
-	}
+	};
 
 	function draw(){
 		plocha.draw();
@@ -129,7 +129,7 @@
 			suns[i].draw();
 		}
 		sidebar.draw();
-	}
+	};
 
 	function move(){
 		for(i in zombies){
@@ -141,7 +141,7 @@
 		for(i in shots){
 			shots[i].move();
 		}
-	}			
+	};		
 
 	function check(){
 		for(i in plants){
@@ -151,31 +151,28 @@
 			if(typeof(plants[i].checkShot) === "function"){
 				plants[i].checkShot();
 			}
-		}
+		};
 		i=0;
 		for(i in suns){
 			if(suns[i].checkLife()){
 				suns.splice(i,1);
 			}
-		}
+		};
 		i=0;
 		for(i in shots){
-			var toto=shots[i];
-			
+			var toto=shots[i];			
 			if(toto.checkColision()){
-				shots.splice(i,1);
-				//i--;			
+				shots.splice(i,1);	
 			}
 			if(toto.x-toto.polomer>=plocha.numX*plocha.kockaWidth){
 				shots.splice(i,1);
-				//i--;
 			}
-		}
+		};
 		i=0;
 		for(i in zombies){
 			zombies[i].checkBite();
-		}
-	}
+		};
+	};
 	
 	function seeder(){		
 		if(Date.now()-lastZombieAdd>=10000){
