@@ -6,15 +6,13 @@ slnecnica=function(x,y){
 	slnk-=this.cena;
 	this.suns=50;
 	this.lastSun=Date.now();
-	this.polomer=40;
+	this.image = new Image();
+	this.image.src="images/SunflowerHD.png";
 };
 slnecnica.prototype={
 	cena:25,
 	draw:function(){
-		context.beginPath();
-		context.arc(this.x+plocha.kockaWidth/2, this.y+plocha.kockaHeight/2, this.polomer, 0, 2 * Math.PI, false);
-		context.fillStyle = 'brown';
-		context.fill();
+		context.drawImage(this.image,this.x,this.y,plocha.kockaWidth,plocha.kockaHeight);
 	},
 	checkGetingSun:function(){
 		if(Date.now()-this.lastSun>=10000){
@@ -31,20 +29,18 @@ kvetina=function(x,y){
 	this.attack=1;
 	this.lastShot=Date.now();
 	slnk-=this.cena;
-	this.polomer=40;
+	this.image = new Image();
+	this.image.src="images/PeashooterHD.png";
 };
 kvetina.prototype={
 	cena:50,
 	draw:function(){
-		context.beginPath();
-		context.arc(this.x+plocha.kockaWidth/2, this.y+plocha.kockaHeight/2, this.polomer, 0, 2 * Math.PI, false);
-		context.fillStyle = 'black';
-		context.fill();
+		context.drawImage(this.image,this.x,this.y,plocha.kockaWidth,plocha.kockaHeight);
 	},
 	checkShot:function(){
 		
 		if(Date.now()-this.lastShot>=500){		
-			shots.push(new Shot(this.x+2*this.polomer,this.y+this.polomer,5,0,this.attack));
+			shots.push(new Shot(this.x+2*plocha.kockaWidth/2,this.y+plocha.kockaHeight/2,5,0,this.attack));
 			this.lastShot=Date.now();
 			chyba++;
 			console.log(chyba);
@@ -59,14 +55,12 @@ walker=function(x,y){
 	this.y=y;
 	this.dx=-0.5;
 	this.dy=0;
-	this.polomer=40;
+	this.image = new Image();
+	this.image.src="images/ZombieHD.png";
 };
 walker.prototype={
 	draw:function(){
-		context.beginPath();
-		context.arc(this.x+plocha.kockaWidth/2, this.y+plocha.kockaHeight/2, this.polomer, 0, 2 * Math.PI, false);
-		context.fillStyle = 'pink';
-		context.fill();
+		context.drawImage(this.image,this.x,this.y,plocha.kockaWidth,plocha.kockaHeight);
 	},
 	move:function(){
 		this.x+=this.dx;
@@ -79,7 +73,8 @@ Shot=function(x,y,dx,dy,attack){
 	this.y=y;
 	this.dx=dx;
 	this.dy=dy;
-	this.attack=attack;
+	this.attack=attack;	
+	
 };
 
 Shot.prototype={
@@ -96,8 +91,6 @@ Shot.prototype={
 	checkColision:function(){
 		for(j in zombies){
 			var toto=zombies[j];
-			//console.log((this.y-plocha.kockaHeight/2)+" == "+toto.y);
-			//console.log((this.x+this.polomer)+" == "+toto.x);
 			if((this.y-plocha.kockaHeight/2)==toto.y){			
 				if(this.x+this.polomer>=toto.x){		
 					console.log("náraz!!");							
@@ -121,14 +114,13 @@ Sun=function(x,y,sunS){
 	this.dx=Math.random()*1-0.5;
 	this.dy=Math.random()*1-0.5;
 	this.startTime=Date.now();
+	this.image = new Image();
+	this.image.src="images/SunHD.png";
 };
 
 Sun.prototype={
 	draw:function(){
-		context.beginPath();
-		context.arc(this.x, this.y, this.polomer, 0, 2 * Math.PI, false);
-		context.fillStyle = 'yellow';
-		context.fill();
+		context.drawImage(this.image,this.x,this.y,this.polomer*2,this.polomer*2);
 	},
 	move:function(){
 		var xSos=this.x;
