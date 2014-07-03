@@ -58,32 +58,34 @@
 
 			for(i in this.plants){
 				var toto =this.plants[i];
-				context.beginPath();
-				context.arc(toto["x"],toto["y"], plocha.kockaWidth/2, 0, 2 * Math.PI, false);
-				context.fillStyle = toto["color"];
-				//console.log(player.selected+" == "+toto.name);
+				toto.image.src="images/"+toto.img;								
 				if(player.select[0]==toto.name){
-					context.lineWidth = 5;
-					context.strokeStyle = 'white';
-					context.stroke();
+					context.beginPath();
+					context.rect(toto.x, toto.y, plocha.kockaWidth, plocha.kockaHeight);
+				    context.fillStyle = '#444';
+				    context.fill();
 				}
-				context.fill();
+				context.drawImage(toto.image,toto.x,toto.y,plocha.kockaWidth,plocha.kockaHeight);
 			}
 		},
 		plants:{
 			0:{
 				id:"a",
 				color:"brown",
+				image : new Image(),
+				img: "SunflowerHD.png",				
 				name:"slnecnica",
-				x:1290,
-				y:105,
+				x:1250,
+				y:65,
 			},
 			1:{
 				id:"b",
 				color:"black",
+				image : new Image(),
+				img:"PeashooterHD.png",
 				name:"kvetina",
-				x:1290,
-				y:105+90,
+				x:1250,
+				y:65+90,
 			}
 		}
 	};
@@ -179,16 +181,16 @@
 			var riadok=Math.floor(Math.random()*10);
 			zombies.push(new walker((plocha.numX*plocha.kockaWidth+40),riadok*plocha.kockaHeight));
 			lastZombieAdd=Date.now();
-		}		
-	}
+		}
+	};
 	
 	function click(data){		
-		for(i in sidebar.plants){
-			var toto=sidebar.plants[i];
+		for(j in sidebar.plants){
+			var toto=sidebar.plants[j];
 			var X=data.clientX;
 			var Y=data.clientY;
-			var dlzka=Math.sqrt((X-toto["x"])*(X-toto["x"])+((Y-toto["y"])*(Y-toto["y"])));
-			if(dlzka<40){
+			var click=((X>toto.x)&&(X<toto.x+plocha.kockaWidth)&&(Y>toto.y)&&(Y<toto.y+plocha.kockaHeight));
+			if(click){
 				if(player.select[0]==toto["name"]){
 					player.select=false;
 					break;
