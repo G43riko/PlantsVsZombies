@@ -40,7 +40,7 @@ kvetina.prototype={
 	checkShot:function(){
 		
 		if(Date.now()-this.lastShot>=5000){		
-			shots.push(new Shot(this.x+2*plocha.kockaWidth/2,this.y+plocha.kockaHeight/2,5,0,this.attack));
+			shots.push(new Shot(this.x+2*plocha.kockaWidth/2,this.y+plocha.kockaHeight/2-16,5,0,this.attack));
 			this.lastShot=Date.now();
 		}
 	}
@@ -112,8 +112,9 @@ Shot.prototype={
 	checkColision:function(){
 		for(j in zombies){
 			var toto=zombies[j];
-			if((this.y-plocha.kockaHeight/2)==toto.y){			
-				if(this.x+this.polomer>=toto.x){		
+			console.log((this.y-plocha.kockaHeight/2+16)+" == "+toto.y);
+			if((this.y-plocha.kockaHeight/2+16)==toto.y){			
+				if((this.x+this.polomer-16)>=toto.x){		
 					console.log("náraz!!");							
 					toto.healt-=this.attack;
 					this.attack=0;	
