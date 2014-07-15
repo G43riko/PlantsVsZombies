@@ -44,6 +44,7 @@
 			context.fill();
 		}
 	};
+	
 	sidebar={
 		background:"grey",
 		draw:function(){
@@ -71,7 +72,6 @@
 		plants:{
 			0:{
 				id:"a",
-				color:"brown",
 				image : new Image(),
 				img: "SunflowerHD.png",				
 				name:"slnecnica",
@@ -80,28 +80,47 @@
 			},
 			1:{
 				id:"b",
-				color:"black",
 				image : new Image(),
-				img:"PeashooterHD.png",
+				img: "PeashooterHD.png",
 				name:"kvetina",
 				x:1250,
 				y:65+90,
+			},
+			2:{
+				id:"c",
+				image : new Image(),
+				img: "KernelPultHD.png",
+				name:"kukurica",
+				x:1250,
+				y:65+180,	
 			}
 		}
 	};
+	
 	player={
 		select:false
 	};
+	
 	function init(){
-		plocha.fill(plocha.plocha);
+		
+		/* Variables */
+		
 		isPlaying=false;
 		ticks=0;
+		slnk=100;
+		lastZombieAdd=Date.now();
+		
+		/* Arrays */
+		
 		plants=[];
 		zombies=[];
 		suns=[];
 		shots=[];
-		slnk=100;
-		lastZombieAdd=Date.now();
+		
+		/* Functions */
+		
+		plocha.fill(plocha.plocha);
+		
 	};
 
 	function mainLoop(){
@@ -116,36 +135,65 @@
 	};
 
 	function draw(){
+		
+		/* Draw field */
+		
 		plocha.draw();
+		
+		/* Draw Plants */
 		
 		for(i in plants){
 			plants[i].draw();
 		}
+		
+		/* Draw zombies */
+		
 		for(i in zombies){
 			zombies[i].draw();
 		}
+		
+		/* Draw shots */
+		
 		for(i in shots){
 			shots[i].draw();
 		}
+		
+		/* Draw suns */
+		
 		for(i in suns){
 			suns[i].draw();
 		}
+		
+		/* Draw sidebar */
+		
 		sidebar.draw();
 	};
 
 	function move(){
+		
+		/* Move zombies */
+		
 		for(i in zombies){
 			zombies[i].move();
 		}
+		
+		/* Move suns */
+		
 		for(i in suns){
 			suns[i].move();
 		}
+		
+		/* Move shots */
+		
 		for(i in shots){
 			shots[i].move();
 		}
 	};		
 
 	function check(){
+		
+		/*Check if plant shots or produce suns*/
+		
 		for(i in plants){
 			if(typeof(plants[i].checkGetingSun) === "function"){
 				plants[i].checkGetingSun();
@@ -155,28 +203,49 @@
 			}
 		};
 		i=0;
+		
+		/* Check suns life */
+		
 		for(i in suns){
 			if(suns[i].checkLife()){
 				suns.splice(i,1);
 			}
 		};
 		i=0;
+		
+		/* Check if shot hit target */
+		
 		for(i in shots){
-			var toto=shots[i];			
-			if(toto.checkColision()){
-				shots.splice(i,1);	
+			var toto=shots[i];	
+			if(typeof(toto.checkColision) === "function"){		
+				if(toto.checkColision()){
+					shots.splice(i,1);
+					continue;	
+				}
+			}
+			if(typeof(toto.life) != "undefined"){
+				if(toto.life<0){
+					toto.target.healt--;
+					if(toto.target.healt<=0){
+						zombies.splice(zombies.indexOf(toto.target),1);
+					}
+					shots.splice(i,1);
+					continue;	
+				}
 			}
 			if(toto.x-toto.polomer>=plocha.numX*plocha.kockaWidth){
 				shots.splice(i,1);
 			}
 		};
 		i=0;
+		
+		
 		for(i in zombies){
 			zombies[i].checkBite();
 		};
 	};
 	
-	function seeder(){		
+	function seeder(){
 		if(Date.now()-lastZombieAdd>=10000){
 			var riadok=Math.floor(Math.random()*10);
 			zombies.push(new walker((plocha.numX*plocha.kockaWidth+40),riadok*plocha.kockaHeight));
@@ -184,7 +253,7 @@
 		}
 	};
 	
-	function click(data){		
+	function click(data){
 		for(j in sidebar.plants){
 			var toto=sidebar.plants[j];
 			var X=data.clientX;
@@ -233,7 +302,7 @@
 		return 0;
 	};
 	
-	function clickIn(x,y,obj){		
+	function clickIn(x,y,obj){
 		if((obj.x<x)&&(obj.x+obj.polomer*2>x)&&(obj.y<y)&&(obj.y+obj.polomer*2>y)){
 			return 1;
 		}
@@ -243,6 +312,7 @@
 	window.onclick=function(d){
 		click(d);
 	};
+	
 	init();
 	isPlaying=true;
 	mainLoop();

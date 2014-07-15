@@ -38,10 +38,14 @@ kvetina.prototype={
 		context.drawImage(this.image,this.x,this.y,plocha.kockaWidth,plocha.kockaHeight);
 	},
 	checkShot:function(){
-		
-		if(Date.now()-this.lastShot>=5000){		
-			shots.push(new Shot(this.x+2*plocha.kockaWidth/2,this.y+plocha.kockaHeight/2-16,5,0,this.attack));
-			this.lastShot=Date.now();
+		if(Date.now()-this.lastShot>=5000){	
+			for( var j in zombies ){
+				if(zombies[j].y==this.y){	
+					shots.push(new Shot(this.x+2*plocha.kockaWidth/2,this.y+plocha.kockaHeight/2-16,5,0,this.attack));
+					this.lastShot=Date.now();
+					break;
+				}
+			}
 		}
 	}
 };
@@ -112,7 +116,6 @@ Shot.prototype={
 	checkColision:function(){
 		for(j in zombies){
 			var toto=zombies[j];
-			console.log((this.y-plocha.kockaHeight/2+16)+" == "+toto.y);
 			if((this.y-plocha.kockaHeight/2+16)==toto.y){			
 				if((this.x+this.polomer-16)>=toto.x){		
 					console.log("náraz!!");							
@@ -180,4 +183,62 @@ Sun.prototype={
 		}
 		return false;
 	}
+};
+kukurica=function(x,y){
+	this.x=Math.floor(x/plocha.kockaWidth)*plocha.kockaWidth;
+	this.y=Math.floor(y/plocha.kockaHeight)*plocha.kockaHeight;
+	this.start=Date.now();
+	this.healt=10;
+	this.attack=1;
+	this.lastShot=Date.now();
+	slnk-=this.cena;
+	this.image = new Image();
+	this.image.src="images/KernelPultHD.png";
+};
+kukurica.prototype={
+	cena:100,
+	draw:function(){
+		context.drawImage(this.image,this.x,this.y,plocha.kockaWidth,plocha.kockaHeight);
+	},
+	checkShot:function(){
+		for( var i in zombies){
+			var toto = zombies[i];
+			if(toto.y==this.y){
+				if(Date.now()-this.lastShot>7000){
+					shots.push(new Shot2(this.x,this.y,toto,this.attack));
+					this.lastShot=Date.now();
+					break;
+				}
+			}
+		}
+	}
+};
+Shot2=function(x,y,t,attack){
+	this.x=x;
+	this.y=y;
+	this.target=t;
+	this.attack=attack;
+	this.tx=t.x+t.dx*this.steps;
+	this.polomer=5;
+	this.ty=t.y;
+	this.life=this.steps;
+	this.dy=-this.steps/2+1;//dy;
+	this.dx=(t.x-x-20)/this.steps;
+	
+};
+Shot2.prototype={
+	steps:40,
+	draw:function(){
+		context.beginPath();
+		context.arc(this.x, this.y, this.polomer, 0, 2 * Math.PI, false);
+		context.fillStyle = 'black';
+		context.fill();
+	},
+	move:function(){
+		this.x+=this.dx;
+		this.y+=this.dy;
+		this.dy++;
+		this.life--;
+		console.log(this.life);
+	},
 };
