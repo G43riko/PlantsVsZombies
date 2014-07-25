@@ -100,7 +100,7 @@ Shot=function(x,y,dx,dy,attack){
 	this.dx=dx;
 	this.dy=dy;
 	this.attack=attack;	
-	
+
 };
 Shot.prototype={
 	draw:function(){
@@ -116,11 +116,11 @@ Shot.prototype={
 	checkColision:function(){
 		for(j in zombies){
 			var toto=zombies[j];
-			if((this.y-plocha.kockaHeight/2+16)==toto.y){			
-				if((this.x+this.polomer-16)>=toto.x){		
-					console.log("náraz!!");							
+			if((this.y-plocha.kockaHeight/2+16)==toto.y){
+				if((this.x+this.polomer-16)>=toto.x){
+					console.log("náraz!!");
 					toto.healt-=this.attack;
-					this.attack=0;	
+					this.attack=0;
 					if(toto.healt<=0){
 						zombies.splice(j,1);
 					}

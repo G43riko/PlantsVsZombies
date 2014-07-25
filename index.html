@@ -12,15 +12,10 @@
 		</style>
 		<script src="plants.js"></script>
 	</head>
-	<body>
-		<canvas id="Canvas" width="1400" height="800">
-			lutujeme canvas nieje podporovaný
-		</canvas>		
+	<body>	
 	</body>
 </html>
 <script>
-	var canvas = document.getElementById('Canvas');
-	var context = canvas.getContext('2d');
 	plocha = {
 		background:"green",
 		numX:15,
@@ -48,15 +43,21 @@
 	sidebar={
 		background:"grey",
 		draw:function(){
+			
+			/* Draw sidebar */
 			context.beginPath();
 			context.rect(plocha.numX*plocha.kockaWidth, 0, 2.5*plocha.kockaWidth, canvas.height);
 			context.fillStyle = this.background;
 			context.fill();
 
+			/* Draw suns */
+			
 			context.font = 'italic 35pt Calibri';
 			context.fillStyle = 'blue';
 			context.fillText("slnk: "+slnk, (plocha.numX*plocha.kockaWidth+10), 45);
-
+			
+			/* Draw plants */
+			
 			for(i in this.plants){
 				var toto =this.plants[i];
 				toto.image.src="images/"+toto.img;								
@@ -69,6 +70,9 @@
 				context.drawImage(toto.image,toto.x,toto.y,plocha.kockaWidth,plocha.kockaHeight);
 			}
 		},
+		
+		/* List of plants */
+		
 		plants:{
 			0:{
 				id:"a",
@@ -103,6 +107,14 @@
 	
 	function init(){
 		
+		/* Canvas */
+		
+		canvas= document.createElement("canvas");
+		canvas.width=window.innerWidth;
+		canvas.height=window.innerHeight;
+		document.body.appendChild(canvas);
+		context = canvas.getContext('2d');
+			
 		/* Variables */
 		
 		isPlaying=false;
@@ -124,11 +136,13 @@
 	};
 
 	function mainLoop(){
+		
 		check();
 		seeder();
 		draw();
 		move();
 		ticks++;
+		
 		if(isPlaying){
 			requestAnimationFrame(mainLoop);
 		}
@@ -246,6 +260,9 @@
 	};
 	
 	function seeder(){
+		
+		/* Add new zombie every 10 seconds*/
+		
 		if(Date.now()-lastZombieAdd>=10000){
 			var riadok=Math.floor(Math.random()*10);
 			zombies.push(new walker((plocha.numX*plocha.kockaWidth+40),riadok*plocha.kockaHeight));
@@ -254,6 +271,9 @@
 	};
 	
 	function click(data){
+		
+		/* If click in sidebar */
+		
 		for(j in sidebar.plants){
 			var toto=sidebar.plants[j];
 			var X=data.clientX;
@@ -272,6 +292,9 @@
 				}
 			}
 		}
+		
+		/* If click in sun */
+		
 		for(i in suns){
 			var toto=suns[i];
 			if(clickIn(X,Y,toto)){
@@ -279,7 +302,10 @@
 				suns.splice(i,1);
 				return true;
 			}
-		}		
+		}
+		
+		/* If click in plocha */
+		
 		if((data.x>=0)&&(data.x<=plocha.numX*plocha.kockaWidth)&&(data.y>=0)&&(data.y<=plocha.numY*plocha.kockaHeight)&&(player.select)){
 			var Xko=Math.floor(X/plocha.kockaWidth);
 			var Yko=Math.floor(Y/plocha.kockaHeight);
@@ -316,4 +342,5 @@
 	init();
 	isPlaying=true;
 	mainLoop();
+	
 </script>
